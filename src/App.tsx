@@ -17,8 +17,8 @@ export default class App extends Component {
         <Route path="/" exact component={HomePage} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
-        <Route path="/movies/:genre" component={Genre} />
-        <Route path="/movies/:id" component={Movie} />
+        <Route path="/movies/genre/:name" exact component={Genre} />
+        <Route path="/movies/:id" exact component={Movie} />
         <Route path="/watchlist/:id" component={WatchList} />
       </Router>
     )
