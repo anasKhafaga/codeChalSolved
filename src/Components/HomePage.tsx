@@ -4,20 +4,46 @@ import firebase from 'firebase';
 type hpProps = {
 
 }
+interface movieSchema {
+  genres: string[]
+}
 
 export default class HomePage extends Component<hpProps> {
 
   state: {
     movies: object[];
     genres: object[];
+    genreGroups: object[];
   }
   
   constructor(props: hpProps) {
     super(props);
     this.state = {
       movies: [],
-      genres: []
+      genres: [],
+      genreGroups: []
     }
+  };
+
+  groupMoviesByGenre = (genres: string[], movies: any): object[] => {
+    
+    let genreGroups: object[] =[];
+
+    genres.forEach(genre => {
+      function filterFun(movie: movieSchema) { 
+          if (movie.genres.indexOf(genre) > -1) {
+          return true;
+        } else {
+          return false;
+        }
+      };
+      const movieGroup = movies.filter(filterFun);
+      genreGroups.push({
+        [genre]: movieGroup
+      })
+    });
+
+    return genreGroups;
   };
   
   componentDidMount() { 
@@ -40,10 +66,11 @@ export default class HomePage extends Component<hpProps> {
             
           });
         });
-        console.log(genres);
+        const genreGrouping = this.groupMoviesByGenre(genres, movies);
         this.setState({
           movies: [...movies],
-          genres: [...genres]
+          genres: [...genres],
+          genreGroups: [...genreGrouping]
         })
       })
       .catch(err => { 
