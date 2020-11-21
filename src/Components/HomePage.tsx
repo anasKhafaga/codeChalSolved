@@ -55,8 +55,13 @@ export default class HomePage extends Component<hpProps> {
     db.collection('movies').get()
       .then(cursors => { 
         cursors.forEach(cursor => {
-          movies.push(cursor.data());
-          cursor.data().genres.forEach((ele: string) => {
+          const data = cursor.data();
+          const movie = {...data}
+          Object.defineProperty(movie, 'id', {
+            value: cursor.id
+          })
+          movies.push(movie);
+          movie.genres.forEach((ele: string) => {
 
             if (genres.indexOf(ele) > -1) {
               return;

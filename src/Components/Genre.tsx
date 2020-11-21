@@ -30,7 +30,12 @@ export default class Genre extends Component<genreProps> {
       .then(cursors => {
         let movies: object[] = [];
         cursors.forEach(cursor => {
-          movies.push(cursor.data());
+          const data = cursor.data();
+          const movie = {...data}
+          Object.defineProperty(movie, 'id', {
+            value: cursor.id
+          })
+          movies.push(movie);
         });
         this.setState({
           movies,
