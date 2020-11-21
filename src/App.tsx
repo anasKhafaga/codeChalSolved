@@ -3,8 +3,8 @@ import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import firebase from 'firebase';
 
 import {firebaseConfig} from './constants/firebase';
-// import {Genre, HomePage, Login, Movie, WatchList, Signup} from './Components';
-import Genre from './Components/Genre'
+import {Genre, HomePage, Login, Movie, WatchList, Signup} from './Components';
+
 
 import "./styles.css";
 
@@ -14,12 +14,12 @@ export default class App extends Component {
   render() {
     return (
       <Router>
-        {/* <Route path="/" exact component={HomePage} />
+        <Route path="/" exact component={HomePage} />
         <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} /> */}
+        <Route path="/signup" component={Signup} />
         <Route path="/movies/:genre" component={Genre} />
-        {/* <Route path="/movies/:id" component={Movie} />
-        <Route path="/watchlist/:id" component={WatchList} /> */}
+        <Route path="/movies/:id" component={Movie} />
+        <Route path="/watchlist/:id" component={WatchList} />
       </Router>
     )
   }
