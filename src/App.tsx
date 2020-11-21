@@ -1,17 +1,25 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import firebase from 'firebase';
+
+import {firebaseConfig} from './constants/firebase';
+// import {Genre, HomePage, Login, Movie, WatchList, Signup} from './Components';
+import Genre from './Components/Genre'
+
 import "./styles.css";
+
+firebase.initializeApp(firebaseConfig);
 
 export default class App extends Component { 
   render() {
     return (
       <Router>
-        <Route path="/" exact component={} />
-        <Route path="/login" component={} />
-        <Route path="/signup" component={} />
-        <Route path="/movies/:genre" component={} />
-        <Route path="/movies/:id" component={} />
-        <Route path="/watchlist/:id" component={} />
+        {/* <Route path="/" exact component={HomePage} />
+        <Route path="/login" component={Login} />
+        <Route path="/signup" component={Signup} /> */}
+        <Route path="/movies/:genre" component={Genre} />
+        {/* <Route path="/movies/:id" component={Movie} />
+        <Route path="/watchlist/:id" component={WatchList} /> */}
       </Router>
     )
   }
