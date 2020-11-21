@@ -12,12 +12,14 @@ interface genreProps {
 export default class Genre extends Component<genreProps> {
 
   state: {
-    movies: object[]
+    movies: any[],
+    moviesToView: any[]
   }
   constructor(props: genreProps) {
     super(props);
     this.state = {
-      movies: []
+      movies: [],
+      moviesToView: []
     }
   }
   
@@ -31,7 +33,8 @@ export default class Genre extends Component<genreProps> {
           movies.push(cursor.data());
         });
         this.setState({
-          movies
+          movies,
+          moviesToView: movies
         })
       })
       .catch(err => {
@@ -40,15 +43,52 @@ export default class Genre extends Component<genreProps> {
 
   };
 
+  onSearch = (e: React.ChangeEvent<HTMLInputElement>) => { 
+    if (!e.target.value) {
+      this.setState({
+        moviesToView: this.state.movies
+      })
+    } else {
+      const movies = this.state.movies;
+      const filteredMovies = movies.filter((movie) => { 
+        return movie.title.includes(e.target.value);
+      });
+      this.setState({
+        moviesToView: filteredMovies
+      })
+    }
+  };
+
+  onSorting = (e: React.ChangeEvent<HTMLSelectElement>) => { 
+    let type: string = e.target.value;
+    const movies = this.state.moviesToView;
+    let sortedMovies: object[] = [];
+    if (type === 'Ascend') {
+       sortedMovies = movies.sort((a, b) => { 
+        return a.year - b.year;
+      });
+      
+    } else if(type === 'Descend') {
+      sortedMovies = movies.sort((a, b) => { 
+        return b.year - a.year;
+      });
+    } else {
+      sortedMovies = this.state.movies;
+    }
+    this.setState({
+      moviesToView: sortedMovies
+    })
+  };
+
   componentDidMount() { 
     this.fetchGenreMovies();
   };
 
   render() {
-    console.log(this.state);
+    console.log(this.state.moviesToView);
     return (
       <div>
-        Welcome to genre X
+        Welcome to genre X 
       </div>
     )
   }
