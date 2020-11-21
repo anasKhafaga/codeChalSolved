@@ -7,6 +7,7 @@ interface genreProps {
       name: string;
     }
   };
+  watchlist: Function;
 }
 
 export default class Genre extends Component<genreProps> {
@@ -93,7 +94,8 @@ export default class Genre extends Component<genreProps> {
     console.log(this.state.moviesToView);
     return (
       <div>
-        Welcome to genre X 
+        {/* Welcome to genre X  */}
+        <button onClick={() => { this.props.watchlist(this.state.movies[1]) }}>Submit</button>
       </div>
     )
   }

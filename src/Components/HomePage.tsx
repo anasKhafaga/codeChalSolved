@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import firebase from 'firebase';
 
 type hpProps = {
-
+  watchlist: Function;
 }
 interface movieSchema {
   genres: string[]

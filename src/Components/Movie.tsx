@@ -7,6 +7,7 @@ interface movieProps {
       id: string;
     }
   };
+  watchlist: Function;
 }
 
 export default class Movie extends Component<movieProps> {
