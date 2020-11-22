@@ -1,3 +1,9 @@
+/**
+ * @module signup
+ * @class
+ * @description it's signup route handler, expects auth status sothat any logged in user will be redirected to homepage route instead
+ */
+
 import React, { Component } from 'react'
 import firebase from 'firebase';
 import { Form, Button } from 'react-bootstrap';
@@ -21,17 +27,32 @@ export default class Signup extends Component<signupProps>  {
     }
   };
 
+  /**
+ * @method emailChange
+ * @param e - event of email input change
+ * @description updates email state with every change
+ */
   emailChange = (e: React.ChangeEvent<HTMLInputElement>) =>{
     this.setState({
       email: e.target.value
     })
   }
+  /**
+ * @method passChange
+ * @param e - event of password input change
+ * @description updates password state with every change
+ */
   passChange = (e: React.ChangeEvent<HTMLInputElement>) => { 
     this.setState({
       password: e.target.value
     })
   };
   
+  /**
+   * @method signupFirebaseUser
+   * @param e - click event of signup button 
+   * @description this method connect to database and signup with credintials using component state email and password then redirect the user to login page, if there's authentication error it shows alert message
+   */
   signupFirebaseUser = (e: React.MouseEvent<HTMLButtonElement>) => { 
     e.preventDefault();
       firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
@@ -48,7 +69,7 @@ export default class Signup extends Component<signupProps>  {
   render() {
     console.log(this.props.auth);
     if (this.props.auth) {
-      window.location.replace(`${process.env.REACT_APP_DOMAIN}/login`)
+      window.location.replace(`${process.env.REACT_APP_DOMAIN}/`)
     } else {
       return (
         <div>

@@ -1,3 +1,9 @@
+/**
+ * @module HomePage
+ * @class
+ * @description this class contains methods for retrieving all movies from collection, group them by genres and rener them in rows - it expects in props > auth which indicates user login state
+ */
+
 import React, { Component } from 'react'
 import firebase from 'firebase';
 import { Container } from 'react-bootstrap';
@@ -31,11 +37,23 @@ export default class HomePage extends Component<hpProps> {
     }
   };
 
+  /**
+   * @method groupMoviesByGenre
+   * @param genres - array of all genres stored in database
+   * @param movies - array of all retrieved movies
+   * @returns array of key-value pairs where key is genre and value is array of its movies
+   */
+  
   groupMoviesByGenre = (genres: string[], movies: any): object[] => {
     
     let genreGroups: object[] =[];
 
     genres.forEach(genre => {
+      /**
+       * @callback filterFun
+       * @param movie
+       * @description this callback will be passed as an argument for movies array filter method
+       */
       function filterFun(movie: movieSchema) { 
           if (movie.genres.indexOf(genre) > -1) {
           return true;
@@ -52,6 +70,10 @@ export default class HomePage extends Component<hpProps> {
     return genreGroups;
   };
   
+  /**
+   * @method componentDidMount
+   * @description in this method of component lifecycle we connect to database, retrieve all movies, add movie id to its data object, create genres array with no repetition and update component state
+   */
   componentDidMount() { 
     const db = firebase.firestore();
     let movies: object[];
@@ -90,6 +112,10 @@ export default class HomePage extends Component<hpProps> {
       });
   };
   
+  /**
+   * @method render
+   * @description we check user login status and redirect user to login page if not before rendering anything
+   */
   render() {
     if (!this.props.auth) {
       window.location.replace(`${process.env.REACT_APP_DOMAIN}/login`);

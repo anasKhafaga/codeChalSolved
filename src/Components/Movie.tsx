@@ -1,3 +1,9 @@
+/**
+ * @module Movie
+ * @class
+ * @description this class expects props with dynamic value in url [movieId] and auth boolean to guard the route against unauthorized requests it render single movie details
+ */
+
 import React, { Component } from 'react'
 import firebase from 'firebase';
 import { Card, Button } from 'react-bootstrap';
@@ -26,6 +32,11 @@ export default class Movie extends Component<movieProps> {
     }
   }
   
+  /**
+   * @method fetchMovieById
+   * @param id - id injected with the url
+   * @description - this method connect to firebase and retrieve a single movie from it then update state movie key with movie value
+   */
   fetchMovieById = (id: string) => { 
     const db = firebase.firestore()
     db.collection('movies').doc(id).get()

@@ -29,6 +29,11 @@ export default class Genre extends Component<genreProps> {
     }
   }
   
+  /**
+   * @method fetchGenreMovies
+   * @description this method retrieve movies of certain genre then update states object by changing movies and moviesToView
+   */
+  
   fetchGenreMovies = () => { 
     const db = firebase.firestore()
     db.collection('movies').where('genres', 'array-contains', this.props.match.params.name)
@@ -54,6 +59,12 @@ export default class Genre extends Component<genreProps> {
 
   };
 
+  /**
+   * @method onSearch
+   * @description this method filter genre movies on changing the search box input value then update state moviesToView
+   * @param e - event of changing search input box
+   */
+
   onSearch = (e: React.ChangeEvent<HTMLInputElement>) => { 
     if (!e.target.value) {
       this.setState({
@@ -70,6 +81,12 @@ export default class Genre extends Component<genreProps> {
     }
   };
 
+  /**
+   * @method onSorting
+   * @description this method expects event of changing dropdown list with values 'Ascend' | 'Descend' then update state moviesToView
+   * @param e 
+   */
+  
   onSorting = (e: React.ChangeEvent<HTMLSelectElement>) => { 
     let type: string = e.target.value;
     const movies = this.state.moviesToView;

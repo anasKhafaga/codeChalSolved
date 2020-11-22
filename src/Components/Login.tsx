@@ -1,3 +1,9 @@
+/**
+ * @module Login
+ * @class
+ * @description it's login route handler, expects auth status sothat any logged in user will be redirected to homepage route instead
+ */
+
 import React, { Component } from 'react'
 import firebase from 'firebase';
 import { Form, Button } from 'react-bootstrap';
@@ -23,17 +29,32 @@ export default class Login extends Component<loginProps> {
     }
   };
 
+  /**
+   * @method emailChange
+   * @param e - event of email input change
+   * @description updates email state with every change
+   */
   emailChange = (e: React.ChangeEvent<HTMLInputElement>) =>{
     this.setState({
       email: e.target.value
     })
   }
+  /**
+   * @method passChange
+   * @param e - event of password input change
+   * @description updates password state with every change
+   */
   passChange = (e: React.ChangeEvent<HTMLInputElement>) => { 
     this.setState({
       password: e.target.value
     })
   };
   
+  /**
+   * @method loginFirebaseUser
+   * @param e - click event of login button 
+   * @description this method connect to database and login with credintials using component state email and password then redirect the user to homepage, if there's authentication error it shows alert message
+   */
   loginFirebaseUser = (e: React.MouseEvent<HTMLButtonElement>) => { 
     e.preventDefault();
     firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)

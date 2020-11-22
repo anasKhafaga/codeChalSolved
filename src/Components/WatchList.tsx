@@ -1,3 +1,14 @@
+/**
+ * @module WatchList
+ * @class
+ * @description it's render user watchlist so expecting its id injected to url
+ * 
+ * 
+ * PLEASE GIVE THE APP PERMISSION TO ACCESS WATCHLIST COLLECTION
+ * 
+ * 
+ */
+
 import React, { Component } from 'react'
 import { Container } from 'react-bootstrap';
 import firebase from 'firebase';
@@ -27,6 +38,10 @@ export default class WatchList extends Component<wlProps> {
     }
   }
 
+  /**
+   * @method
+   * @description - this method connects to database, check watchlist existence for this user, if user doesn't have watchlist it returns, else it updates state movies with watchlist movies array
+   */
   fetchWatchlistMovies = () => { 
     const id = localStorage.getItem('userId');
     if (typeof id === 'string') {

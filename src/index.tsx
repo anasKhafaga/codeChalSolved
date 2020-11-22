@@ -1,3 +1,6 @@
+/**
+ * dotenv enables us to use environment variables to store sensitive and repeatedly used variables in .env file 
+ */
 import 'dotenv/config';
 
 import * as React from "react";

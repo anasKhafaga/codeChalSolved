@@ -1,3 +1,9 @@
+/**
+ * @module MovieCard
+ * @class
+ * @description - this component renders single movie card which will be building block of GenreRow component > GenreContainer, it expects props of movie, [genre title or watchlist title] to prevent rendering 'Add to my Watchlist' button with watchlist itself and watchlist function to be assigned to 'Add to my Watchlist' button if exists.
+ */
+
 import React, { Component } from 'react'
 import { Card, Col, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';

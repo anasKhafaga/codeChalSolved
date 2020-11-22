@@ -1,3 +1,9 @@
+/**
+ * @module NavBar
+ * @class
+ * @description this component rener custom navigation bar according to auth status - [genre page to render search and dropdown box / not], it expects props of userId [to terminate its session], showDropdown boolean [to render search and dropdown boxes], sort - search [functions passed from Genre component], auth boolean
+ */
+
 import React, { Component } from 'react'
 import { Nav, Form, FormControl, Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
@@ -14,6 +20,10 @@ type NavProps = {
 
 export default class NavBar extends Component<NavProps> {
 
+  /**
+   * @method logout
+   * @description this method implements logout flow
+   */
   logout = () => { 
     firebase.auth().signOut()
       .then(function () {

@@ -1,5 +1,11 @@
+/**
+ * @module App
+ * @class
+ * @description in this module we intialize firebase app, list all app routes using react router dom
+ */
+
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import { BrowserRouter as Router, Route} from 'react-router-dom';
 import firebase from 'firebase';
 
 import {firebaseConfig} from './constants/firebase';
@@ -34,6 +40,14 @@ interface routerPropsM {
 
 export default class App extends Component { 
 
+  /**
+   * @method addMovieToWatchlist
+   * @param movie - movie to be added to watchlist array
+   * @description - this method enables user to create its watchlist or add new one if not exist - this method will be assigned finally to 'Add to my Watchlist' button in MovieCard and Movie components but it's declared here as it may reach these components through different routes components [Genre, Homepage, Movie] - then it redirects user to his watchlist route
+   * 
+   * PLEASE GIVE THE APP PERMISSION TO ACCESS WATCHLIST COLLECTION
+   * 
+   */
   addMovieToWatchlist = (movie: object) => { 
     const id = localStorage.getItem('userId');
     if (typeof id === 'string') {
