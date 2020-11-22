@@ -1,5 +1,9 @@
 import React, { Component } from 'react'
 import firebase from 'firebase';
+import { Container } from 'react-bootstrap';
+
+import GenreContainer from './GenreContainer';
+import NavBar from './NavBar';
 
 interface genreProps {
   match: {
@@ -8,6 +12,7 @@ interface genreProps {
     }
   };
   watchlist: Function;
+  auth: boolean;
 }
 
 export default class Genre extends Component<genreProps> {
@@ -57,7 +62,7 @@ export default class Genre extends Component<genreProps> {
     } else {
       const movies = this.state.movies;
       const filteredMovies = movies.filter((movie) => { 
-        return movie.title.includes(e.target.value);
+        return movie.title.match(new RegExp(e.target.value, 'gi'));
       });
       this.setState({
         moviesToView: filteredMovies
@@ -90,13 +95,19 @@ export default class Genre extends Component<genreProps> {
     this.fetchGenreMovies();
   };
 
+
   render() {
-    console.log(this.state.moviesToView);
-    return (
-      <div>
-        {/* Welcome to genre X  */}
-        <button onClick={() => { this.props.watchlist(this.state.movies[1]) }}>Submit</button>
-      </div>
-    )
+    if (!this.props.auth) {
+      window.location.replace(`${process.env.REACT_APP_DOMAIN}/login`);
+    } else {
+      return (
+        <div>
+          <NavBar content={localStorage.getItem('userId')? true : false} id={localStorage.getItem('userId')} showDropdown={true} search={this.onSearch} sort={this.onSorting} auth={this.props.auth} />
+          <Container className="m-5" fluid >
+            <GenreContainer title={this.props.match.params.name} movies={this.state.moviesToView}  watchlist={ this.props.watchlist}/>
+          </Container>
+        </div>
+      ) 
+    }
   }
 }

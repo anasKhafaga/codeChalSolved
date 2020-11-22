@@ -4,6 +4,7 @@ import Login from './Login';
 import Movie from './Movie';
 import WatchList from './WatchList';
 import Signup from './Signup';
+import NavBar from './NavBar';
 
 export {
   Genre,
@@ -11,5 +12,6 @@ export {
   Login,
   Movie,
   WatchList,
-  Signup
+  Signup,
+  NavBar
 }

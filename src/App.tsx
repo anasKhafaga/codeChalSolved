@@ -17,6 +17,13 @@ interface routerPropsG {
     }
   };
 }
+interface hpProps {
+  match: {
+    params: {
+      name: string;
+    }
+  };
+}
 interface routerPropsM {
   match: {
     params: {
@@ -43,8 +50,16 @@ export default class App extends Component {
               { merge: true }
             )
           }
+          window.location.replace(`${process.env.REACT_APP_DOMAIN}/watchlist/id`)
         })
-        .catch(err => { console.log(err) });
+        .catch(err => {
+          if (err.message = 'FirebaseError: Missing or insufficient permissions.') {
+            alert('the app needs a permission to access watchlist collection this Error message is logged into the console > "FirebaseError: Missing or insufficient permissions."');
+            console.log(err); 
+          } else {
+            alert('Oops! something went wrong.');
+          }
+        });
     } else {
       return;
     }
@@ -53,12 +68,12 @@ export default class App extends Component {
   render() {
     return (
       <Router>
-        <Route path="/" exact component={(props:object)=> <HomePage {...props} watchlist={this.addMovieToWatchlist}/>} />
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} />
-        <Route path="/movies/genre/:name" exact component={(props:routerPropsG)=> <Genre {...props} watchlist={this.addMovieToWatchlist}/>} />
-        <Route path="/movies/:id" exact component={(props:routerPropsM)=> <Movie {...props} watchlist={this.addMovieToWatchlist}/>} />
-        <Route path="/watchlist/:id" component={WatchList} />
+        <Route path="/" exact component={(props: hpProps) => <HomePage {...props} watchlist={this.addMovieToWatchlist} auth={localStorage.getItem('userId') ? true : false} />} />
+          <Route path="/login" component={(props: object)=> <Login {...props} auth={localStorage.getItem('userId')? true : false}/>} />
+          <Route path="/signup" component={(props: object)=> <Signup {...props} auth={localStorage.getItem('userId')? true : false}/>} />
+          <Route path="/movies/genre/:name" exact component={(props:routerPropsG)=> <Genre {...props} watchlist={this.addMovieToWatchlist} auth={localStorage.getItem('userId')? true : false}/>} />
+          <Route path="/movies/:id" exact component={(props:routerPropsM)=> <Movie {...props} watchlist={this.addMovieToWatchlist} auth={localStorage.getItem('userId')? true : false}/>} />
+          <Route path="/watchlist/:id" component={(props: routerPropsM)=> <WatchList {...props} auth={localStorage.getItem('userId')? true : false}/>} />
       </Router>
     )
   }

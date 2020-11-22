@@ -1,0 +1,99 @@
+import React, { Component } from 'react'
+import { Nav, Form, FormControl, Navbar } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import firebase from 'firebase'
+
+type NavProps = {
+  content: boolean;
+  id: (string | null);
+  showDropdown: boolean;
+  sort: any;
+  search: any;
+  auth: boolean;
+}
+
+export default class NavBar extends Component<NavProps> {
+
+  logout = () => { 
+    firebase.auth().signOut()
+      .then(function () {
+        localStorage.removeItem("userId");
+        window.location.replace(`${process.env.REACT_APP_DOMAIN}/login`);
+      })
+      .catch(function (error) {
+        console.log(error)
+        alert('Oops! something went wrong.');
+    });
+  };
+  
+  render() {
+    let show;
+    let showDropdown = null;
+    if (!this.props.content) {
+      show = (
+          <Nav className="mr-auto">
+            <Nav.Link>
+              <Link to="/login">Login</Link>
+            </Nav.Link>
+          </Nav>
+      )
+    } else {
+      if (this.props.showDropdown) {
+        if (typeof this.props.sort === 'function' && typeof this.props.search === 'function') {
+          showDropdown = (
+            <Form inline className="ml-5">
+              <select name="order" className="custom-select mr-3" onChange={this.props.sort}  >
+                <option value="order" selected>order...</option>
+                <option value="Ascend">Ascend</option>
+                <option value="Descend">Descend</option>
+              </select>
+                <FormControl type="text" placeholder="Search" className="mr-sm-2" onChange={this.props.search} />
+              </Form>
+          )
+        }
+      }
+      show = (
+        <div>
+          <Nav className="mr-auto">
+            <Nav.Link>
+              <Link to={`/watchlist/${this.props.id}`}>Watchlist</Link>
+            </Nav.Link>
+            {showDropdown}
+          </Nav>
+        </div>
+      )
+    }
+    if (this.props.auth) {
+      return (
+        <Navbar bg="light" expand="lg">
+          <Navbar.Brand>
+            <Link to="/">Home Page</Link>
+          </Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            {show}
+            <Nav.Link onClick={this.logout}>
+              Logout
+            </Nav.Link>
+          </Navbar.Collapse>
+        </Navbar>
+      ); 
+    } else {
+      return (
+         <Navbar bg="light" expand="lg">
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="mr-auto">
+            <Nav.Link>
+              <Link to="/login">Login</Link>
+            </Nav.Link>
+            <Nav.Link >
+              <Link to="/signup">Signup</Link>
+            </Nav.Link>
+          </Nav>
+          </Navbar.Collapse>
+        </Navbar>
+      )
+    }
+  }
+}

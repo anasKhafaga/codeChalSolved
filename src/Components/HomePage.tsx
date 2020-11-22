@@ -1,8 +1,14 @@
 import React, { Component } from 'react'
 import firebase from 'firebase';
+import { Container } from 'react-bootstrap';
+import { v4 as uuidv4 } from 'uuid';
 
-type hpProps = {
+import GenreContainer from './GenreContainer';
+import NavBar from './NavBar';
+
+interface hpProps {
   watchlist: Function;
+  auth: boolean;
 }
 interface movieSchema {
   genres: string[]
@@ -52,6 +58,7 @@ export default class HomePage extends Component<hpProps> {
     let genres: string[];
     movies = [];
     genres = [];
+
     db.collection('movies').get()
       .then(cursors => { 
         cursors.forEach(cursor => {
@@ -84,11 +91,38 @@ export default class HomePage extends Component<hpProps> {
   };
   
   render() {
-    console.log(this.state);
-    return (
-      <div>
-        Welcome to homepage
-      </div>
-    )
-  }
+    if (!this.props.auth) {
+      window.location.replace(`${process.env.REACT_APP_DOMAIN}/login`);
+    } else {
+
+      if (!this.state.movies) {
+      return (
+        <div>
+          Loading
+        </div>     
+          )
+      } else {
+        let genres = this.state.genreGroups.map((genreGroup:any) => {
+          let title:string = '';
+          let movies: object[] = [];
+          for (const genreTitle in genreGroup) {
+            title = genreTitle;
+            movies = genreGroup[genreTitle];
+          }
+          return (
+            <GenreContainer title={title} movies={movies} key={uuidv4()} watchlist={ this.props.watchlist}/>
+          )
+        })
+        return (
+          <div>
+            <NavBar sort={null} search={null} auth={this.props.auth} content={localStorage.getItem('userId')? true : false} id={localStorage.getItem('userId')} showDropdown={false} />
+            <Container className="m-5" fluid >
+              {genres}
+            </Container>
+          </div>
+        ) 
+      }
+    }
+      
+    }
 }
