@@ -28,9 +28,21 @@ export default class GenreContainer extends Component<gCProps> {
     let genreRows: any[] = [];
     let i: number = 0;
     let editableMovies = [...this.props.movies];
-    while ( i < editableMovies.length) {
-      genreRows.push(editableMovies.splice(0, 4) );
-      i++
+    if (window.matchMedia("(max-width: 400px)").matches) {
+      while ( i < editableMovies.length) {
+        genreRows.push(editableMovies.splice(0, 1) );
+        i++
+      }
+    } else if (window.matchMedia("(max-width: 600px)").matches) {
+      while ( i < editableMovies.length) {
+        genreRows.push(editableMovies.splice(0, 2) );
+        i++
+      }
+    } else {
+      while ( i < editableMovies.length) {
+        genreRows.push(editableMovies.splice(0, 4) );
+        i++
+      }
     }
     let movieRows = genreRows.map((genreRow) => {
       return (
